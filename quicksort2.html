@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+		</style>
+		<script type="text/javascript">
+			var a=[6,7,8,3,4,5,9];
+			function quicksort(left,right){
+				var i,j,t,temp;
+				if(left>right){
+					return;
+				}		
+				temp=a[left];
+				i=left;
+				j=right;
+				while(i!=j){
+					while(a[j]>=temp&&i<j){
+						j--;
+					}
+					while(a[i]<=temp&&i<j){
+						i++;
+					}
+					if(i<j){
+						t=a[i];
+						a[i]=a[j];
+						a[j]=t;
+					}
+				}
+				a[left]=a[i];
+				a[i]=temp;
+				quicksort(left,i-1);
+				quicksort(i+1,right);
+				return;
+			}
+			quicksort(0,6);
+			console.log(a);
+		</script>
+	</head>
+	<body>
+	</body>
+</html>
