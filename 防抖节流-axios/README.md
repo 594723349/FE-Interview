@@ -261,7 +261,7 @@ var instance = axios.create({
 
   // `validateStatus` 定义对于给定的HTTP 响应状态码是 resolve 或 reject  promise 。如果 `validateStatus` 返回 `true` (或者设置为 `null` 或 `undefined`)，promise 将被 resolve; 否则，promise 将被 rejecte
   validateStatus: function (status) {
-    return status &gt;= 200 &amp;&amp; status &lt; 300; // 默认的
+    return status >= 200 &amp;&amp; status < 300; // 默认的
   },
 
   // `maxRedirects` 定义在 node.js 中 follow 的最大重定向数目
@@ -434,7 +434,7 @@ axios.get('/user/12345')
 ```js
 axios.get('/user/12345', {
   validateStatus: function (status) {
-    return status &lt; 500; // 状态码在大于或等于500时才会 reject
+    return status < 500; // 状态码在大于或等于500时才会 reject
   }
 })
 ```
@@ -443,7 +443,7 @@ axios.get('/user/12345', {
 
 使用 *cancel token* 取消请求
 
-&gt; Axios 的 cancel token API 基于[cancelable promises proposal](https://github.com/tc39/proposal-cancelable-promises)，它还处于第一阶段。
+> Axios 的 cancel token API 基于[cancelable promises proposal](https://github.com/tc39/proposal-cancelable-promises)，它还处于第一阶段。
 
 可以使用 `CancelToken.source` 工厂方法创建 cancel token，像这样：
 
