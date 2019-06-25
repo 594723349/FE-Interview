@@ -8,6 +8,53 @@ JS的解析过程分为两个阶段：预编译期(预处理)与执行期。即�
 js在执行的时候，先有一次预先检测的能力，检测声明（变量），然后第二次在执行整个js程序
 预编译期JS会对本代码块(script)中的所有声明的变量和函数进行处理（类似与C语言的编译），但需要注意的是此时处理函数的只是声明式函数，而且变量也只是进行了声明但未进行初始化以及赋值。执行期就是在编译后的基础上开始从上到下执行脚本，遇到错误时中断。
 
+BOM概念
+BOM:BrowserObjectModel浏览器对象模型，描述与浏览器进行交互的方法和接口，ECMAscript是javascript的核心
+BOM提供了很多对象，用于访问浏览器的功能，这些功能与任何网页内容无关。
+由于浏览器提供商会按照各自的想法随意去扩展它，使得BOM缺乏一定的规范，于是浏览器之间共有的对象成为了事实上的标准。
+window对象介绍
+BOM的核心对象是window，它表示浏览器的一个实例。在浏览器中，window对象有双重角色，它既是通过JavaScript访问浏览器窗口的一个接口，又是ECMAScript规定的全局（global）对象。这意味着在网页中定义的任何一个对象、变量和函数，都以window作为其Global对象，因此有权访问parseInt()等方法。
+与document的关系（扩展）
+当浏览器下载到一个网页，通常是HTML，这个HTML就叫document（当然，这也是DOM树中的一个node），document通常是整个DOM树的根节点。这个document包含了标题（document.title）、URL（document.URL）、(document.body)等属性，可以直接在JS中	访问到。
+DOM是为了操作文档出现的API，document是其的一个对象；
+BOM是为了操作浏览器出现的API，window是其的一个对象。
+
+window内置对象(document、location（地址栏）/history（前进、后退的那个东西）/navigator（浏览器的信息）)及方法
+location对象  href属性  控制浏览器地址栏的内容
+navigator对象
+userAgent  用户代理信息，通过该属性可以获取浏览器及操作系统信息
+
+BOM相关的事件和操作
+onload事件：页面内容加载完成（DOM结构，图片.....）
+onscroll事件：拖动浏览器的滚动条触发此事件。
+onresize事件：浏览器窗口缩放所触发的事件。
+可视区的宽高：document.documentElement.clientWidth/clientHeight
+滚动条距离
+document.documentElement.scrollTop  firefox和ie
+document.body.scrollTop  chrome
+
+DOM的概念及作用
+DOM是”Document Object Model”的首字母缩写，即文档对象模型。用来描绘一个层次化的节点树，允许开发人员添加、移除和修改页面的某一部分。
+
+创建、添加、删除、克隆、替换
+document.createElement() 创建一个元素节点
+document.createTextNode()  创建一个文本节点
+box.appendChild(node)  把node节点插入到box的内部最后的位置
+box.insertBefore(newNode, existNode)  把newNode节点插入到exsitNode的前面
+box.removeChild(node)  删除子节点（包含文本节点）
+obj.cloneNode(） 复制节点,复制obj元素标签，可以传一个布尔值为参数，如果参数为true，连同obj子元素一起复制。
+obj.replaceChild(新添加的节点（替换）,被替换的节点)
+
+自定义属性及getAttribute方法
+getAttribute() 获取特定元素节点属性的值,某些低版本浏览器不支持.
+setAttribute() 设置特定元素节点属性的值，某些低版本浏览器不支持
+removeAttribute() 移除特定元素节点属性，某些低版本浏览器不支持
+
+innerHTML(可读可写)：获取和设置元素节点里的内容，从对象的起始位置到终止位置的全部内容,不包括自身Html标签。
+outerHTML：除了包含innerHTML的全部内容外, 还包含对象标签本身。
+innerText：获取某个网页元素的文本内容
+
+
 ```javascript
 - 强制转换为整型：
 sum=parseInt(hour/day);  
@@ -230,26 +277,62 @@ Math.round()：四舍五入取整数
 10-20随机数
 Math.floor(Math.random()*(10+1)+10)
 
-BOM概念
-BOM:BrowserObjectModel浏览器对象模型，描述与浏览器进行交互的方法和接口，ECMAscript是javascript的核心
-BOM提供了很多对象，用于访问浏览器的功能，这些功能与任何网页内容无关。
-由于浏览器提供商会按照各自的想法随意去扩展它，使得BOM缺乏一定的规范，于是浏览器之间共有的对象成为了事实上的标准。
-window对象介绍
-BOM的核心对象是window，它表示浏览器的一个实例。在浏览器中，window对象有双重角色，它既是通过JavaScript访问浏览器窗口的一个接口，又是ECMAScript规定的全局（global）对象。这意味着在网页中定义的任何一个对象、变量和函数，都以window作为其Global对象，因此有权访问parseInt()等方法。
-与document的关系（扩展）
-当浏览器下载到一个网页，通常是HTML，这个HTML就叫document（当然，这也是DOM树中的一个node），document通常是整个DOM树的根节点。这个document包含了标题（document.title）、URL（document.URL）、(document.body)等属性，可以直接在JS中	访问到。
-DOM是为了操作文档出现的API，document是其的一个对象；
-BOM是为了操作浏览器出现的API，window是其的一个对象。
+childNodes包含空白节点/ ---children过滤空白节点
+childNodes 获取当前元素节点的所有子节点,这里面包含空白节点，
+在IE9之前，IE浏览器会自动忽略空白节点（兼容问题）
 
+高级选取firstChild/lastChild/parentNode/previousSibling/nextSibling
+firstChild   获取当前元素节点的第一个子节点
+firstElementChild 获取当前元素节点的第一个子节点（第一个标签，不算文本节点）
+lastElementChild
+document.documentElement 获取html标签元素
+parentNode 获取当前节点的父节点  //获取到父节点，且父节点所包含的所有
+previousSibling 获取当前节点的前一个兄弟节点
+previousElementSibling 注意这个：是获取上一个兄弟节点，且过滤掉文本节点
+nextSibling/nextElementSibling 获取当前节点的后一个兄弟节点
 
+e.target和e.currentTarget
+target和currentTarget都是event上面的属性，target是真正发生事件的DOM元素，
+而currentTarget是当前事件发生在哪个DOM元素上。
 
-
-
-
-
-
-
-
-
+javascript中的默认行为是指javascript中事件本身具有的属性，
+如<a>标签可以跳转，文本框可输入文字、字母、图片路径等，
+右键浏览器会出现菜单等行为便被称为浏览器的默认行为。
 
 ```
+
+事件监听器（事件绑定）
+	相同监听事件不会被覆盖
+target.addEventListener("click", fun, false); --标准浏览器
+target.attachEvent("onclick",fun); --IE浏览器（执行顺序按照绑定的反序）（edge使用addEventListener）
+removeEventListener()/detachEvent() 移除事件绑定的参数和添加事件绑定是一致的。
+可以绑定多个函数在一个对象上。
+执行顺序按照绑定的顺序来（IE反向）。
+第三个参数是否使用捕捉(反向冒泡)，默认false，为冒泡。
+
+事件流：
+DOM(文档对象模型)结构是一个树型结构，当一个HTML元素产生一个事件时，该事件会在元素结点与根结点之间的路径传播，路径所经过的结点都会收到该事件，这个传播过程的顺序可称为DOM事件流。
+
+事件委托的应用？？？
+比如说在一个10列、100行的HTML表格里，让其每一个单元格在被点击的时候变成可编辑状态。如果把事件处理器加到这1000个单元格会产生一个很大的性能问题，并且有可能导致内存泄露甚至是浏览器的崩溃。相反地，使用事件代理，你只需要把一个事件处理器添加到table元素上就可以了，这个函数可以把点击事件给截下来，并且判断出是哪个单元格被点击了。
+----事件捕获
+Netscape团队提出的另一种事件流叫做事件捕获,即事件开始时由最不具体的节点应该早接收到事件，而最具体的节点应该最后接收到事件。
+
+通信协议
+物理层（代表一堆0和1组成的代码）：0001 1101
+数据链路层：（通过一些协议封装或者说加密物理层的数据）spa 0001 1101
+网络层：再添加算法 ospf:（最短路径优先算法）       ospf spa 0001 1101
+应用层：软件所走的一些协议  比如http等      35（接口） ospf spa 0001 1101
+通信协议是指双方实体完成通信或服务所必须遵循的规则和约定。
+在计算机通信中，通信协议用于实现计算机与网络连接之间的标准，网络如果没有统一的通信协议，电脑之间的信息传递就无法识别。 通信协议是指通信各方事前约定的通信规则，可以简单地理解为各计算机之间进行相互会话所使用的共同语言。两台计算机在进行通信时，必须使用通信协议。
+----TCP/IP
+Transmission Control Protocol/Internet Protocol的简写，中译名为传输控制协议/因特网互联协议，又名网络通讯协议，是Internet最基本的协议、Internet国际互联网络的基础，由网络层的IP协议和传输层的TCP协议组成。TCP/IP 定义了电子设备如何连入因特网，以及数据如何在它们之间传输的标准。
+----HTTP
+超文本传输协议（HTTP，HyperText Transfer Protocol)是互联网上应用最为广泛的一种网络协议。所有的WWW文件都必须遵守这个标准。设计HTTP最初的目的是为了提供一种发布和接收HTML页面的方法。
+HTTP是一个客户端和服务器端请求和应答的标准（TCP）。客户端是终端用户，服务器端是网站。通过使用Web浏览器、网络爬虫或者其它的工具，客户端发起一个到服务器上指定端口（默认端口为80）的HTTP请求。
+
+cookie的概念(会话跟踪技术)
+Cookie 是在 HTTP 协议下，服务器或脚本可以维护客户工作站上信息的一种方式。Cookie 是由Web服务器保存在用户浏览器（客户端）上的小文本文件，它可以包含有关用户的信息。无论何时用户链接到服务器，Web 站点都可以访问 Cookie信息 。
+cookie储存在用户本地终端上的数据，指某些网站为了辨别用户身份、进行session跟踪而储存在用户本地终端上的数据。可以叫做浏览器缓存.
+Cookie是由服务器端生成，发送给客户端（一般是浏览器），浏览器会将Cookie的key=value保存到某个目录下的文本文件内（保存在客户端下面），下次请求同一网站时就发送该Cookie给服务器（前提是浏览器设置为启用cookie）。
+
