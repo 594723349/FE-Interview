@@ -36,7 +36,8 @@ oninput
 它绑定于对象时，并非该对象所有属性改变都能触发事件，
 它只在对象value值发生改变时奏效。 IE9以上浏览器。
 
-JS响应回车事件（函数形参ev为了处理IE传过来的事件，如果是其他浏览器，则不需要这个形参，即function method（）{var eVent=event;……};）
+JS响应回车事件（函数形参ev为了处理IE传过来的事件，如果是其他浏览器，
+则不需要这个形参，即function method（）{var eVent=event;……};）
 
 作用域
 任何程序设计语言都有作用域的概念，简单的说，作用域就是变量与函数的可访问范围，即作用域控制着变量与函数的可见性和生命周期。
@@ -102,7 +103,8 @@ pop		从数组当中删除数据，并且是最后一位数据
 shift		在数组的第一位，删除数据
 unshift	在数组的第一位，添加数据
 splice(a,b)	删除数组中的某个第一个参数是数组的下标      第二个参数是删掉几个
-slice(start,end)	取数据内容start数组开始的小标，end数组结尾的下标，但是end不包括自己
+slice(start,end)	取数据内容start数组开始的小标，end数组结尾的下标，
+但是end不包括自己
 
 a=[1,2,3,4,5,6]
 // (6) [1, 2, 3, 4, 5, 6]
@@ -116,7 +118,8 @@ a.filter(value=>value%2).map(value=>value*2).reduce((a,b)=>a+b)
 // 注意输出的是一个对象
 var str=new String('12345');
 console.log(str)
-VM3186:1 String {"12345"}0: "1"1: "2"2: "3"3: "4"4: "5"length: 5__proto__: String[[PrimitiveValue]]: "12345"
+VM3186:1 String {"12345"}0: "1"1: "2"2: "3"3: "4"4: "5"
+length: 5__proto__: String[[PrimitiveValue]]: "12345"
 
 对于一个字符串数组来说，如果字符串为数值，则parseInt（整个数组） 就等于parseInt（数组[0]）。
 
@@ -133,7 +136,9 @@ var newArr = arr.filter(function (ele, i, array) {
 });
 console.log(newArr); // [1500, 1200, 1800]
 
-将一个字符串数组的元素的顺序进行反转。["a", "b", "c", "d"] -> [ "d","c","b","a"]。使用两种种方式实现。提示：第i个和第length-i-1个进行交换
+将一个字符串数组的元素的顺序进行反转。
+["a", "b", "c", "d"] -> [ "d","c","b","a"]。使用两种种方式实现。
+提示：第i个和第length-i-1个进行交换
 // 数组.reverse() 方法
 var arr = ["a", "b", "c", "d"];
 console.log(arr.reverse()); // ["d", "c", "b", "a"]
@@ -147,6 +152,94 @@ arr[arr.length-1-i] = temp;
 console.log(arr);
 
 
+数组清空：1. arr.length = 0; // (不好，伪数组无法清空)2. arr.splice(0); // 伪数组没有这个方法;3. arr = [];   // 可以操作伪数组; (推荐!)
+
+// 伪数组: 就是长的像数组，但是没有数组的方法;也不能添加和删除元素;
+例： // arguments
+    fn(111,222,333);
+    function fn(){
+      arguments.length = 0; // 无法清空 返回 [1, 2, 3]
+      arguments.splice(0); // 会报错 arguments.splice is not a function
+      arguments = []; // 可以清空,返回空数组[] 
+      console.log(arguments);
+    }
+
+sort( )
+sort() // 数组中元素排序;(默认：从小到大)
+// 默认：按照首个字符的Unicode编码排序;如果第一个相同那么就比较第二个...
+例：
+var arr = [4,5,1,3,2,7,6];
+var aaa =arr.sort();
+console.log(aaa);     // [1, 2, 3, 4, 5, 6, 7]
+console.log(aaa === arr);// true 原数组被排序了(冒泡排序)
+//默认还可以排列字母;
+var arr2 = ["c","e","d","a","b"];
+var bbb = arr2.sort();
+console.log(bbb);     // ["a", "b", "c", "d", "e"]
+console.log(bbb===arr2); // true 原数组被排序了(冒泡排序)
+
+sort() //数值大小排序方法,需要借助回调函数;
+例：
+var arr = [4,5,1,13,2,7,6];
+//回调函数里面返回值如果是：参数1-参数2;升幂；  参数2-参数1;降幂；
+arr.sort(function (a,b) {
+return a-b; //升序
+//return b-a; //降序
+//return b.value-a.value; //按照元素value属性的大小排序;
+});
+console.log(arr); // [1, 2, 4, 5, 6, 7, 13]
+
+arr.sort();
+    console.log(arr);//输出 [1, 2, 3, 4, 5, 59, 6] 注意：sort()默认是转换字符串再排序 所以按照数字大小排序不正确
+    //正确方法 写比较函数
+    arr.sort(function(a,b){return a-b}); //升序
+    console.log(arr);//输出 [1, 2, 3, 4, 5, 6, 59]
+    arr.sort(function(a,b){return b-a});//降序
+console.log(arr);//输出[59, 6, 5, 4, 3, 2, 1]
+
+数组.indexOf(元素);   // 给元素，查索引(从前往后)
+数组.lastIndexOf(元素); // 给元素，查索引(从后往前)
+例：
+var arr = ["a","b","c","d","c","b","b"];
+console.log(arr.indexOf("b"));    // 1 查到以后立刻返回
+console.log(arr.lastIndexOf("b"));  // 6 找到以后立刻返回
+console.log(arr.indexOf("xxx"));  // -1; 查不到就返回-1；
+
+filter()数组遍历
+//  对数组中每一项运行回调函数，该函数返回结果是true的项组成的新数组
+//   新数组是有老数组中的元素组成的，return为ture的项;
+例：
+var arr = [111,222,333,444,555];
+var newArr = arr.filter(function (element, index, array) {
+//只要是奇数，就组成数组;(数组中辨别元素)
+if(element%2 === 0){
+return true;
+}else{
+return false;
+}
+})   // console.log(newArr); // [222, 444]
+
+进制转换
+var a=10
+undefined
+a.toString(16)
+"a"
+
+Math.round()：四舍五入取整数
+
+10-20随机数
+Math.floor(Math.random()*(10+1)+10)
+
+BOM概念
+BOM:BrowserObjectModel浏览器对象模型，描述与浏览器进行交互的方法和接口，ECMAscript是javascript的核心
+BOM提供了很多对象，用于访问浏览器的功能，这些功能与任何网页内容无关。
+由于浏览器提供商会按照各自的想法随意去扩展它，使得BOM缺乏一定的规范，于是浏览器之间共有的对象成为了事实上的标准。
+window对象介绍
+BOM的核心对象是window，它表示浏览器的一个实例。在浏览器中，window对象有双重角色，它既是通过JavaScript访问浏览器窗口的一个接口，又是ECMAScript规定的全局（global）对象。这意味着在网页中定义的任何一个对象、变量和函数，都以window作为其Global对象，因此有权访问parseInt()等方法。
+与document的关系（扩展）
+当浏览器下载到一个网页，通常是HTML，这个HTML就叫document（当然，这也是DOM树中的一个node），document通常是整个DOM树的根节点。这个document包含了标题（document.title）、URL（document.URL）、(document.body)等属性，可以直接在JS中	访问到。
+DOM是为了操作文档出现的API，document是其的一个对象；
+BOM是为了操作浏览器出现的API，window是其的一个对象。
 
 
 
