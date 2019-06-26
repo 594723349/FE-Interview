@@ -299,6 +299,48 @@ javascript中的默认行为是指javascript中事件本身具有的属性，
 如<a>标签可以跳转，文本框可输入文字、字母、图片路径等，
 右键浏览器会出现菜单等行为便被称为浏览器的默认行为。
 
+当没有解构成功或者没有赋予实际意义的数值时候，会启用默认值， 如下：
+var [foo = true] = [];
+foo // true
+[x, y = 'b'] = ['a']; // x='a', y='b'
+[x, y = 'b'] = ['a', undefined]; // x='a', y='b'
+对于默认值，我们在ES6 function函数中同样可以定义，比如：
+function setName (name = 'Richard') {
+  return name:
+}
+setName();  //Richard
+setName('Aison'); // Aison
+函数参数的解构也可以使用默认值
+function move({x = 0, y = 0} = {}) {
+  return [x, y];
+}
+move({x: 3, y: 8}); // [3, 8]
+move({x: 3}); // [3, 0]
+move({}); // [0, 0]
+move(); // [0, 0]
+
+在 es5 时代，如果想给一个函数默认值的话必须要这样写
+var es5Fun = function (config) {
+    var foo = config.foo || 'default foo'
+    console.log(foo)
+}
+es5Fun() // 'default foo'
+es5Fun({foo: 'not default foo'}) // 'not default foo'
+在 es6 有了结构赋值之后，传入的参数可以自动赋予默认值
+const es6Fun = ({foo = 'default foo'} = {}) => {
+    console.log(foo)
+}
+es6Fun() // 'default foo'
+es6Fun({foo: 'not default foo'}) // 'not default foo'
+
+•	箭头函数有几个使用注意点。
+1、函数体内this对象，就是定义时所在的对象，而不是使用时所在的对象。
+    This不会改变。
+2、不可以当作构造函数，也就是说，不可以使用new命令，否则会抛出一个错误。
+3、不可以使用arguments对象，该对象在函数体内不存在。
+4、箭头函数一定是匿名函数。
+
+
 ```
 
 事件监听器（事件绑定）
@@ -335,4 +377,48 @@ cookie的概念(会话跟踪技术)
 Cookie 是在 HTTP 协议下，服务器或脚本可以维护客户工作站上信息的一种方式。Cookie 是由Web服务器保存在用户浏览器（客户端）上的小文本文件，它可以包含有关用户的信息。无论何时用户链接到服务器，Web 站点都可以访问 Cookie信息 。
 cookie储存在用户本地终端上的数据，指某些网站为了辨别用户身份、进行session跟踪而储存在用户本地终端上的数据。可以叫做浏览器缓存.
 Cookie是由服务器端生成，发送给客户端（一般是浏览器），浏览器会将Cookie的key=value保存到某个目录下的文本文件内（保存在客户端下面），下次请求同一网站时就发送该Cookie给服务器（前提是浏览器设置为启用cookie）。
+
+只有在函数里，var才有作用域，if 和for里如果要让变量有作用域的话，就得用let 声明变量。
+
+•	Set类的方法
+Set.add(value)  添加一个数据，返回Set结构本身，允许进行链式操作。
+Set.delete(value) 删除指定数据，返回一个布尔值，表示删除是否成功。
+•	数据结构--map
+JavaScript 的对象（Object），只能用字符串当作键。这给它的使用带来了很大	的限制。ES6 提供了 Map 数据结构。它类似于对象，但是“键”的范围不限于	字符串，各种类型的值（包括对象）都可以当作键。
+map类的方法
+map.set(key,value) :设置键名key对应的键值value,然后返回整个map结构，	如果key已经有值，则键值会被更新，否则就生成该键，可以链式操作。
+map.get(key) get方法读取key对应的键值，如果找不到key，返回undefined
+map.delete(key) 删除某个键，返回true.如果删除失败，返回false.
+
+如需获取html元素，则可用：document.childNodes[1]
+	document.documentElement 获取html标签元素
+
+document.documentElement.scrollWidth和document.body.scrollWidth
+	在默认body8px的margin不清楚的情况下，前者比后者多这个8px
+
+
+可视区的宽高：document.documentElement.clientWidth/clientHeight
+滚动条距离：
+document.documentElement.scrollTop  firefox和ie（测试ie也全支持了）
+document.body.scrollTop  chrome（测试后两种都好使，可能是版本问题）
+
+
+•	构造函数：其实就是一个普通函数，但是内部使用了this变量。对构造函数使用new运算符，就能生成实例对象，并且this变量会绑定在实例对象上。
+•	构造函数的基本特点：首字母大写   new运算符实例化对象。
+•	构造函数模式虽然好用，但也并非没有缺点。使用构造函数的主要问题，就是每个方法都要在每个实例对象上重新创建一遍。
+
+
+•	new的使用
+以 new 操作符调用构造函数的时候，函数内部发生以下变化：
+ 	 1、创建一个空对象，并且 this 变量引用该对象，同时还继承了该函数的原型。
+ 	 2、属性和方法被加入到 this 引用的对象中。
+ 	 3、新创建的对象由 this 所引用，并且最后隐式的返回 this 。 
+
+var timer = setInterval(method(), 1000);
+
+可以执行一次。正常反复执行需引号
+	或者直接写函数名（不加括号和不加引号，即method）。
+
+
+每一次new都是创建一个新的对象，即在内存中重新开辟地址，而new method()  这个东东指向创建的对象 的引用，这个可以赋值到新的变量里，例如  var obj=new method()
 
